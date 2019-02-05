@@ -1,5 +1,5 @@
 const Hapi = require('hapi');
-const routes = require('./src/rout');
+const routes = require('./src/routes/ping');
 
 const server = new Hapi.Server({
   port: 8081,
