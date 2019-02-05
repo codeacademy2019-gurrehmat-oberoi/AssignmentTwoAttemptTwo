@@ -14,22 +14,24 @@ const getBooksWithRating = () => getAllBooksFromApi().then((books) => {
   const allBooks = books;
   const allBookIds = allBooks.map(book => book.id);
   const allPromises = allBookIds.map(id => getBookRatingById(id));
-  return Promise.all(allPromises).then(allRatings => allRatings.map((ratingObject, index) => Object.assign(allBooks[index], ratingObject)));
+  return Promise.all(allPromises)
+    .then(allRatings => allRatings
+      .map((ratingObject, index) => Object.assign(allBooks[index], ratingObject)));
 });
-  // const allBooks = await getAllBooksFromApi();
-  // // const allPromises = [];
-  // const allPromises = allBooks.map((book) => {
-  //   const bookRating = getBookRatingById(book.id);
-  //   return bookRating;
-  // });
-  // const allRatings = Promise.all(allPromises).then();
-  // const allBooksWithRatings =
-  // allBooks.map((book, index) => Object.assign(book, allRatings[index]));
-  // return allBooksWithRatings;
 
+const getBooksGroupedByAuthor = () => getBooksWithRating()
+  .then(allBooks => allBooks.reduce((accumulator, book) => {
+    if (accumulator[book.Author] === undefined) {
+      accumulator[book.Author] = [book];
+    } else {
+      accumulator[book.Author].push(book);
+    }
+    return accumulator;
+  }, {}));
 
 module.exports = {
   getAllBooksFromApi,
   getBookRatingById,
   getBooksWithRating,
+  getBooksGroupedByAuthor,
 };

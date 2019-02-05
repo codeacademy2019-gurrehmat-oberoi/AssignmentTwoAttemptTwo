@@ -6,6 +6,7 @@ const {
   getAllBooksFromApi,
   getBookRatingById,
   getBooksWithRating,
+  getBooksGroupedByAuthor,
 } = require('../../../src/utils/books');
 
 describe('getAllBooksFromApi', () => {
@@ -29,5 +30,14 @@ describe('getBooksWithRating', () => {
     const allBooks = await getBooksWithRating();
     console.log(allBooks);
     expect(typeof (allBooks[0].rating)).toEqual('number');
+  });
+});
+
+describe('getBooksGroupedByAuthor', () => {
+  it('should return object of authors as key and array of their book objects as value', async () => {
+    const groupedBooks = await getBooksGroupedByAuthor();
+    const authors = Object.keys(groupedBooks);
+    expect(authors.length > 0).toEqual(true);
+    expect(Array.isArray(groupedBooks[authors[0]])).toEqual(true);
   });
 });
