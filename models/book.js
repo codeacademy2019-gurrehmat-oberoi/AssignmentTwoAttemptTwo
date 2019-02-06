@@ -9,6 +9,7 @@ module.exports = (sequelize, DataTypes) => {
     },
     name: DataTypes.STRING,
     rating: DataTypes.FLOAT,
+    liked: DataTypes.BOOLEAN,
   }, {});
   // book.associate = function (models) {
   //   // associations can be defined here
@@ -17,6 +18,10 @@ module.exports = (sequelize, DataTypes) => {
   Book.addNewBook = bookDetails => Book.findOrCreate({ where: bookDetails });
 
   Book.getBookById = id => Book.findOne({ where: { id } });
+
+  Book.likeBookById = id => Book.update({ liked: true }, { where: { id } });
+
+  Book.dislikeBookById = id => Book.update({ liked: false }, { where: { id } });
 
   return Book;
 };
